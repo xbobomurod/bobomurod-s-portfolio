@@ -1,21 +1,33 @@
-import { Menu, X } from 'lucide-react'
+import { Code2, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Link as ScrollLink } from 'react-scroll'
 
-const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
+const Header = () => {
 	const [activeSection, setActiveSection] = useState('home')
+	const [isScrolled, setIsScrolled] = useState(false)
+	const [showMobileNav, setShowMobileNav] = useState(false)
+
+	const navigate = useNavigate()
+	const location = useLocation()
 
 	const navItems = [
 		{ name: 'Home', id: 'home' },
 		{ name: 'About', id: 'about' },
+		{ name: 'Skills', id: 'skills' },
 		{ name: 'Projects', id: 'projects' },
 		{ name: 'Contact', id: 'contact' },
+		{ name: 'Blog', id: 'blog' },
 	]
 
 	useEffect(() => {
 		const scrollContainer = document.getElementById('scroll-container')
+		let rafId
+
 		const handleScroll = () => {
 			const scrollY = scrollContainer?.scrollTop || 0
+			setIsScrolled(scrollY > 50)
+
 			const offsets = navItems.map(item => {
 				const el = document.getElementById(item.id)
 				return {
@@ -32,68 +44,148 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
 		}
 
 		if (scrollContainer) {
-			scrollContainer.addEventListener('scroll', handleScroll)
+			scrollContainer.addEventListener('scroll', handleScroll, { passive: true })
 			handleScroll()
 		}
 
 		return () => {
-			if (scrollContainer) {
-				scrollContainer.removeEventListener('scroll', handleScroll)
-			}
+			if (scrollContainer) scrollContainer.removeEventListener('scroll', handleScroll)
+			if (rafId) cancelAnimationFrame(rafId)
 		}
-	}, [navItems])
+	}, [])
+
+	// ✅ ScrollLink’ni umumiy onClick function bilan boshqaramiz
+	const handleNavClick = (itemId) => {
+		if (itemId === 'blog') return // blog uchun router ishlaydi
+
+		if (location.pathname !== '/') {
+			navigate('/')
+			setTimeout(() => {
+				const el = document.getElementById(itemId)
+				if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+			}, 400)
+		}
+	}
 
 	return (
 		<header
-			className={`fixed top-3 ${
-				isSidebarOpen ? 'left-64' : 'left-1/2 -translate-x-1/2'
-			} w-[95%] md:w-4/5 z-40 backdrop-blur-md bg-white/10 border border-white/20 rounded-xl shadow-lg font-mono transition-all duration-300`}
+			className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+				isScrolled
+					? 'bg-[#0f111a]/95 backdrop-blur-lg border-b border-white/10 shadow-lg'
+					: 'bg-transparent'
+			}`}
 		>
-			<div className='flex items-center justify-between py-3 px-4 md:px-6'>
-				<div className='flex items-center gap-3'>
-					<div className='w-9 h-9 rounded bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center shadow-inner'>
-						<span className='text-xs text-white'>JS</span>
+			<div className='flex items-center justify-between py-3 px-4 md:px-8 h-20'>
+				{/* Logo */}
+				<div className='flex items-center gap-3 flex-shrink-0'>
+					<div className='w-10 h-10 rounded-lg bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center shadow-lg'>
+						<Code2 size={22} className='text-white' />
 					</div>
-					<h1 className='text-sm md:text-lg font-bold text-white'>
-						/Bobomurod's Portfolio
-					</h1>
+					<div className='hidden sm:flex flex-col'>
+						<h1 className='text-sm md:text-base font-bold text-white'>Bobomurod</h1>
+						<p className='text-xs text-gray-400'>Developer</p>
+					</div>
 				</div>
 
-				<nav className='hidden md:flex gap-6 text-white text-sm'>
-					{navItems.map(item => (
-						<ScrollLink
-							key={item.id}
-							to={item.id}
-							containerId='scroll-container'
-							smooth={true}
-							duration={500}
-							offset={-100}
-							onClick={() => setActiveSection(item.id)} // <-- QO‘SHILGAN
-							className={`relative group px-2 py-1 cursor-pointer ${
-								activeSection === item.id
-									? 'text-yellow-300'
-									: 'hover:text-green-300'
-							}`}
-						>
-							{item.name}
-							<span
-								className={`absolute left-0 -bottom-0.5 h-0.5 bg-yellow-300 transition-all duration-300 ${
+				{/* Desktop Navigation */}
+				<nav className='hidden lg:flex gap-1 bg-[#1e1e2f]/50 backdrop-blur-md px-2 py-1 rounded-full border border-white/10'>
+					{navItems.map(item => {
+						if (item.id === 'blog') {
+							return (
+								<Link
+									key={item.id}
+									to='/blog'
+									className='px-4 py-2 text-sm font-medium cursor-pointer rounded-full transition-all duration-300 text-gray-300 hover:text-white hover:bg-white/10'
+								>
+									{item.name}
+								</Link>
+							)
+						}
+
+						return (
+							<ScrollLink
+								key={item.id}
+								to={item.id}
+								containerId='scroll-container'
+								smooth={true}
+								duration={500}
+								offset={-100}
+								onClick={() => handleNavClick(item.id)}
+								className={`px-4 py-2 text-sm font-medium cursor-pointer rounded-full transition-all duration-300 ${
 									activeSection === item.id
-										? 'w-full'
-										: 'w-0 group-hover:w-full'
+										? 'text-white bg-green-500/20 border border-green-500/50'
+										: 'text-gray-300 hover:text-white hover:bg-white/10'
 								}`}
-							></span>
-						</ScrollLink>
-					))}
+							>
+								{item.name}
+							</ScrollLink>
+						)
+					})}
 				</nav>
 
-				<button
-					className='md:hidden text-white right-4 focus:outline-none'
-					onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-				>
-					{isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
-				</button>
+				{/* Right Actions */}
+				<div className='flex items-center gap-3 flex-shrink-0'>
+					<a
+						href='https://github.com/xbobomrod'
+						target='_blank'
+						rel='noopener noreferrer'
+						className='hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-[#1e1e2f]/50 hover:bg-[#1e1e2f] border border-white/10 hover:border-green-400/50 text-gray-300 hover:text-green-400 transition-all duration-300'
+					>
+						GitHub
+					</a>
+
+					{/* Mobile Menu */}
+					<button
+						onClick={() => setShowMobileNav(!showMobileNav)}
+						className='lg:hidden p-2 hover:bg-white/10 rounded-lg text-white transition'
+					>
+						{showMobileNav ? <X size={20} /> : <Menu size={20} />}
+					</button>
+				</div>
 			</div>
+
+			{/* Mobile Navigation */}
+			{showMobileNav && (
+				<div className='lg:hidden bg-[#1e1e2f] border-t border-white/10'>
+					<nav className='flex flex-col p-2'>
+						{navItems.map(item => {
+							if (item.id === 'blog') {
+								return (
+									<Link
+										key={item.id}
+										to='/blog'
+										className='px-4 py-2 text-sm font-medium cursor-pointer rounded-full transition-all duration-300 text-gray-300 hover:text-white hover:bg-white/10'
+									>
+										{item.name}
+									</Link>
+								)
+							}
+
+							return (
+								<ScrollLink
+									key={item.id}
+									to={item.id}
+									containerId='scroll-container'
+									smooth={true}
+									duration={500}
+									offset={-100}
+									onClick={() => {
+										setShowMobileNav(false)
+										handleNavClick(item.id)
+									}}
+									className={`px-4 py-2 text-sm font-medium cursor-pointer rounded-full transition-all duration-300 ${
+										activeSection === item.id
+											? 'text-white bg-green-500/20 border border-green-500/50'
+											: 'text-gray-300 hover:text-white hover:bg-white/10'
+									}`}
+								>
+									{item.name}
+								</ScrollLink>
+							)
+						})}
+					</nav>
+				</div>
+			)}
 		</header>
 	)
 }

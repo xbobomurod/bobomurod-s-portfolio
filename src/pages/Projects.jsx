@@ -3,7 +3,7 @@ const projects = [
 		title: 'Lexbridge Academy',
 		description:
 			'A comprehensive learning platform offering courses on various topics, built with React and Tailwind CSS.',
-		link: 'https://github.com/bobberkan/lexbridge-academy',
+		link: 'https://github.com/xbobomurod/lexbridge-academy',
 		demo: 'https://lexbridge-academy.vercel.app/',
 	},
 	{
@@ -17,8 +17,15 @@ const projects = [
 		title: 'Test Platform',
 		description:
 			'A platform for creating and taking quizzes, featuring user authentication, quiz management, and real-time results, built with Html, CSS, and JavaScript.',
-		link: 'https://github.com/bobberkan/Test',
-		demo: 'https://test-theta-neon-34.vercel.app/',
+		link: 'https://github.com/xbobomurod/Test',
+		demo: 'https://test-pro-site.vercel.app/',
+	},
+		{
+		title: 'Blog Site',
+		description:
+			'A personal blog site where users can read articles on various topics, built with React Tailwind CSS and Vite.',
+		link: 'https://github.com/ix1osbek/ixlosware_blog',
+		demo: 'https://ixlosware.uz/',
 	},
 ]
 

@@ -59,7 +59,7 @@ const Contact = () => {
       {/* Terminal-style Contact Form */}
       <div className="bg-[#1e1e2f] rounded-lg shadow-lg p-6 border border-white/10 text-gray-300 font-mono text-sm w-full max-w-2xl z-10">
         <p className="mb-2 text-green-400">&gt; Hello there!</p>
-        <p className="mb-4">Feel free to send me a message directly via Telegram bot form below.</p>
+        <p className="mb-4">Drop your message below — I usually respond within 24–48 hours. Include any links or context that will help me assist you faster.</p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
