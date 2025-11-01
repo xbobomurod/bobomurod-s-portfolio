@@ -1,5 +1,5 @@
+import { AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { supabase } from '../lib/supabaseClient'
 
 export default function Blog() {
