@@ -78,18 +78,19 @@ const Home = () => {
 
 				{/* Main Heading */}
 				<h1 className='text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 text-white animate-fade-in'>
-					H Bobomurod
+					Kh Bobomurod
 				</h1>
 
 				{/* Typing Animation */}
 				<TypeAnimation
 					sequence={[
 						'Frontend Developer',
-						2000,
+						3000,
 						'Creative Coder',
-						2000,
+						3000,
 						'Tech Enthusiast',
-						2000,
+						3000,
+						
 					]}
 					wrapper='span'
 					speed={50}
