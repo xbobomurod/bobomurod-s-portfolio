@@ -37,6 +37,7 @@ export default function Blog() {
 							key={post.id}
 							className='bg-white/10 p-5 rounded-2xl border border-white/10 shadow-lg hover:shadow-green-500/20 transition'
 						>
+							<img src={post.img} alt={post.title} />
 							<h2 className='text-xl font-semibold text-green-400 mb-2'>
 								{post.title}
 							</h2>
