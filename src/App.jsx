@@ -9,8 +9,8 @@ import Contact from './pages/Contact'
 import Home from './pages/Home'
 import Projects from './pages/Projects'
 import Skills from './pages/Skills'
-import Blog from './pages/Blog' // ✅ blog page import
-import AdminBlog from './pages/AdminBlog' // ✅ admin blog page import
+import Blog from './pages/Blog' 
+import AdminBlog from './pages/AdminBlog' 
 
 function App() {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -48,7 +48,7 @@ function App() {
 
 							{/* 👇 Blog Page — alohida ochiladi */}
 							<Route path='/blog' element={<Blog />} />
-							 <Route path="/my-admins" element={<AdminBlog />} />
+							 <Route path="/admina" element={<AdminBlog />} />
 						</Routes>
 					</main>
 
