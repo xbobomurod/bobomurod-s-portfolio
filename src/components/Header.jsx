@@ -126,7 +126,7 @@ const Header = () => {
 				{/* Right Actions */}
 				<div className='flex items-center gap-3 flex-shrink-0'>
 					<a
-						href='https://github.com/xbobomrod'
+						href='https://github.com/xbobomurod'
 						target='_blank'
 						rel='noopener noreferrer'
 						className='hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-[#1e1e2f]/50 hover:bg-[#1e1e2f] border border-white/10 hover:border-green-400/50 text-gray-300 hover:text-green-400 transition-all duration-300'
